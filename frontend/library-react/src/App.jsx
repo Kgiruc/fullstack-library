@@ -1,21 +1,18 @@
-import { useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Update from './pages/Update'
+import Add from './pages/Add'
+import Books from './pages/Books'
 
 
 function App() {
-  const [books, setBooks] = useState()
-
-  useEffect(() => {
-    fetch('http://localhost:8800/books')
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-    })
-    .catch(err => console.log(err))
-  }, [])
-
+ 
   return (
     <div className="App">
-      
+      <Routes>
+        <Route path='/'element={<Books />}/>
+        <Route path='/add'element={<Add />}/>
+        <Route path='/update/:id'element={<Update />}/>
+      </Routes>
     </div>
   )
 }

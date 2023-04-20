@@ -46,6 +46,32 @@ app.post("/books", (req, res) => {
     });
 });
 
-    app.listen(8800, () => {
-        console.log('Server started on port 8800');
+app.delete("/books/:id", (req, res) => {
+    const bookId = req.params.id
+    const q = "DELETE FROM library.books WHERE id = ?"
+
+    db.query(q, [bookId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("book has been deleted successfully");
     });
+})
+
+app.put("/books/:id", (req, res) => {
+    const bookId = req.params.id
+    const q = "UPDATE library.books SET `title` = ?,`ISBN` = ?,`author` = ? WHERE id = ?"
+
+    const values = [
+        req.body.title,
+        req.body.ISBN,
+        req.body.author,
+    ];
+
+    db.query(q, [...values, bookId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("book has been updated successfully");
+    });
+})
+
+app.listen(8800, () => {
+    console.log('Server started on port 8800');
+});
