@@ -4,7 +4,17 @@ const getBooks = (req, res) => {
   const q = 'SELECT * FROM library.books';
   db.query(q, (err, data) => {
     if (err) return res.json(err);
-    return res.json(data);
+    const books = data;
+    const q2 = 'SELECT book_id FROM library.rentals';
+    db.query(q2, (err, data) => {
+      if (err) return res.json(err);
+      const rentedBooks = data.map((item) => item.book_id);
+      const bookList = books.map((book) => ({
+        ...book,
+        isAvailable: !rentedBooks.includes(book.id),
+      }));
+      return res.json(bookList);
+    });
   });
 };
 
