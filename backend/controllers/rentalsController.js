@@ -32,15 +32,5 @@ const deleteRental = (req, res) => {
   });
 };
 
-// const updateRental = (req, res) => {
-//   const rentalId = req.params.id;
-//   const q = 'UPDATE library.rentals SET `book_id` = ?, `date_rented` = ?, `date_returned` = ?, `borrow_name` = ? WHERE id = ?';
-//   const values = [req.body.book_id, req.body.date_rented, req.body.date_returned, req.body.borrow_name, rentalId];
-
-//   db.query(q, values, (err, data) => {
-//     if (err) return res.json(err);
-//     return res.json('Rental has been updated successfully');
-//   });
-// };
 
 export { getRentals, createRental, deleteRental };
