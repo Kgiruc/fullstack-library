@@ -13,6 +13,4 @@ rentalsRouter.post('/rentals', createRental);
 
 rentalsRouter.delete('/rentals/:id', deleteRental);
 
-// router.put('/rentals/:id', updateBook);
-
 export default rentalsRouter;
