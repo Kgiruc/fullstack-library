@@ -5,6 +5,7 @@ import Books from './pages/Books'
 import Rentals from './pages/Rentals'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import Profile from './pages/Profile'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path='/rentals'element={<Rentals />}/>
         <Route path='/register'element={<Register />}/>
         <Route path='/login'element={<Login />}/>
+        <Route path='/profile'element={<Profile />}/>
       </Routes>
     </div>
   )

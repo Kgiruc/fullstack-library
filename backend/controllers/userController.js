@@ -21,7 +21,7 @@ const getRegister = (req, res) => {
     db.query(q, values, (err, data) => {
       if (err) return res.json(err);
       if (data.length === 0) return res.json('Invalid login or password');
-      const token = jwt.sign({ id: data[0].id, isAdmin: data[0].isAdmin },
+      const token = jwt.sign({ id: data[0].id, isAdmin: data[0].isAdmin, name: data[0].name },
          "mySecretKey",
          )
       return res.json({ 
