@@ -3,19 +3,20 @@ import axios from 'axios'
 import ListBooks from "../components/ListBooks"
 import { Link } from "react-router-dom"
 import jwt_decode from 'jwt-decode'
+import Profile from "./Profile"
 
 function Books() {
   const [books, setBooks] = useState()
   const [isAdmin, setIsAdmin] = useState(false)
+  const [isUser, setIsUser] = useState(false)
 
   useEffect(() => {
     const fetchAllBooks = async () => {
       try {
-          const res = await axios.get('http://localhost:8800/books')
-          setBooks(res.data)
-      }
-      catch(err) {
-          console.log(err)
+        const res = await axios.get('http://localhost:8800/books')
+        setBooks(res.data)
+      } catch (err) {
+        console.log(err)
       }
     }
     fetchAllBooks()
@@ -23,17 +24,22 @@ function Books() {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwt_decode(token);
-      setIsAdmin(decodedToken.isAdmin);
+      setIsAdmin(Boolean(decodedToken.isAdmin));
+      setIsUser(!decodedToken.isAdmin)
     }
   }, [])
 
-
-  return (
-    <div>
-        {books && <ListBooks books={books} />}
+  if (books && (isAdmin || isUser)) {
+    return (
+      <div>
+        <Profile />
+        <ListBooks books={books} isAdmin={isAdmin} isUser={isUser} />
         {isAdmin && <button><Link to='/add'>Dodaj książkę</Link></button>}
-    </div>
-  )
+      </div>
+    )
+  } else {
+    return <div>Loading...</div>
+  }
 }
 
 export default Books

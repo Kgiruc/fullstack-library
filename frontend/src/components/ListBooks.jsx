@@ -1,8 +1,13 @@
 import axios from 'axios';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
-function ListBooks({ books, isAdmin }) {
+function ListBooks({ books, isAdmin, isUser }) {
+  const token = localStorage.getItem('token');
+  const decodedToken = jwt_decode(token);
+  const nameToken = decodedToken.name;
+
   const handleDelete = async (id) => {
     try {
       await axios.delete('http://localhost:8800/books/' + id);
@@ -17,7 +22,7 @@ function ListBooks({ books, isAdmin }) {
     try {
       const rentalData = {
         book_id: id,
-        borrow_name: 'Your Name',
+        borrow_name: nameToken,
       };
       await axios.post('http://localhost:8800/rentals', rentalData);
       window.location.reload();
@@ -34,19 +39,29 @@ function ListBooks({ books, isAdmin }) {
           <p>{book.title}</p>
           <p>{book.ISBN}</p>
           <p>{book.author}</p>
-          <button onClick={(e) => handleRent(book.id, e)} disabled={!book.isAvailable}>Wypożycz</button>
-          {isAdmin &&
+          {isUser && (
+            <button
+              onClick={(e) => handleRent(book.id, e)}
+              disabled={!book.isAvailable}
+            >
+              Wypożycz
+            </button>
+          )}
+          {(isAdmin || isUser) && (
             <>
               <button>
                 <Link to={`/update/${book.id}`}>Edit</Link>
               </button>
-              <button
-                onClick={() => handleDelete(book.id)}
-                disabled={!book.isAvailable}
-              >
-                delete
-              </button>
-            </>}
+              {isAdmin && (
+                <button
+                  onClick={() => handleDelete(book.id)}
+                  disabled={!book.isAvailable}
+                >
+                  delete
+                </button>
+              )}
+            </>
+          )}
         </section>
       ))}
     </div>

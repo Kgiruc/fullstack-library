@@ -3,15 +3,29 @@ import jwt from "jsonwebtoken"
 
 
 const getRegister = (req, res) => {
-    const { name, login, password, isAdmin } = req.body;
-    const q = 'INSERT INTO library.users (name, login, password, isAdmin) VALUES (?, ?, ?, ?)';
-    const values = [name, login, password, isAdmin];
-  
-    db.query(q, values, (err, data) => {
-      if (err) return res.json(err);
-      return res.json('User has been created successfully');
-    });
-  };
+  const { name, login, password, isAdmin } = req.body;
+
+  // Sprawdź, czy dany login jest już zajęty
+  const checkLoginQuery = 'SELECT * FROM library.users WHERE login = ?';
+  db.query(checkLoginQuery, [login], (err, data) => {
+    if (err) return res.json(err);
+
+    if (data.length > 0) {
+      // Jeśli login jest już zajęty, zwróć odpowiedni komunikat
+      return res.json('Ten użytkownik już istenieje');
+    } else {
+      // W przeciwnym razie dodaj użytkownika
+      const addUserQuery = 'INSERT INTO library.users (name, login, password, isAdmin) VALUES (?, ?, ?, ?)';
+      const values = [name, login, password, isAdmin];
+
+      db.query(addUserQuery, values, (err, data) => {
+        if (err) return res.json(err);
+
+        return res.json('User has been created successfully');
+      });
+    }
+  });
+};
 
   const getLogin = (req, res) => {
     const { login, password } = req.body;

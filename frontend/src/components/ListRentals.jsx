@@ -1,9 +1,7 @@
 import axios from 'axios';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-function ListBooks({ rentals }) {
+function ListRentals({ rentals, isAdmin }) {
   const navigate = useNavigate()
 
   const handleDelete = async (id) => {
@@ -23,11 +21,15 @@ function ListBooks({ rentals }) {
         <section key={rental.id}>
           <p>{rental.title}</p>
           <p>{rental.borrow_name}</p>
-          <button onClick={() => handleDelete(rental.id)}>Zwróć</button>
+          {isAdmin ? (
+            <button disabled>Zwróć</button>
+          ) : (
+            <button onClick={() => handleDelete(rental.id)}>Zwróć</button>
+          )}
         </section>
       ))}
     </div>
   );
 }
 
-export default ListBooks;
+export default ListRentals;
