@@ -33,14 +33,15 @@ function ListBooks({ books, isAdmin, isUser }) {
 
 
   return (
-    <div>
+    <div className='books-list'>
       {books.map((book) => (
-        <section key={book.id}>
-          <p>{book.title}</p>
-          <p>{book.ISBN}</p>
-          <p>{book.author}</p>
+        <section className='book' key={book.id}>
+          <p className='title'>{book.title}</p>
+          <p className='numbers'>{book.ISBN}</p>
+          <p className='author'>{book.author}</p>
           {isUser && (
             <button
+              className=''
               onClick={(e) => handleRent(book.id, e)}
               disabled={!book.isAvailable}
             >
@@ -48,19 +49,22 @@ function ListBooks({ books, isAdmin, isUser }) {
             </button>
           )}
           {(isAdmin || isUser) && (
-            <>
-              <button>
-                <Link to={`/update/${book.id}`}>Edit</Link>
-              </button>
+            <div className='actions'>
               {isAdmin && (
                 <button
+                  className='delete-button'
                   onClick={() => handleDelete(book.id)}
                   disabled={!book.isAvailable}
                 >
                   delete
                 </button>
               )}
-            </>
+              {isAdmin && (
+                <button className='edit-button'>
+                  <Link to={`/update/${book.id}`}>Edit</Link>
+                </button>
+              )}
+            </div>
           )}
         </section>
       ))}

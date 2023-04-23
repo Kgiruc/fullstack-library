@@ -10,8 +10,8 @@ function Profile() {
   const name = decodedToken.name;
     
   return (
-    <div>
-      {isAdmin ? <p>{`Witaj adminie! ${name}`}</p> : <p>{`Witaj użytkowniku! ${name}`}</p>}
+    <div className='profile'>
+      {isAdmin ? <p className='admin'>{`Witaj adminie! ${name}`}</p> : <p className='user'>{`Witaj użytkowniku! ${name}`}</p>}
       <LogoutButton />
     </div>
   );

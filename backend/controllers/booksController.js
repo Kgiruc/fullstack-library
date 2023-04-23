@@ -19,9 +19,21 @@ const getBooks = (req, res) => {
 };
 
 const createBook = (req, res) => {
+  const title = req.body.title;
+  const ISBN = req.body.ISBN;
+  const author = req.body.author;
+
+  if (title.length > 45) {
+    return res.status(400).json({ error: "Nazwa książki jest zbyt długa" });
+  }
+
+  if (!/^\d{13}$/.test(ISBN)) {
+    return res.status(400).json({ error: "Numer ISBN musi składać się z 13 cyfr" });
+  }
+
   const q =
     'INSERT INTO library.books (`title`,`ISBN`,`author`) VALUES (?)';
-  const values = [req.body.title, req.body.ISBN, req.body.author];
+  const values = [title, ISBN, author];
 
   db.query(q, [values], (err, data) => {
     if (err) return res.json(err);

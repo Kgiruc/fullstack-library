@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom"
 
 
 function Login() {
-  const [admin, setAdmin] = useState(false)
   const [login, setLogin] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState(false)
-  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState("")
 
   const navigate = useNavigate();
 
@@ -17,16 +15,14 @@ function Login() {
     try {
       const res = await axios.post("http://localhost:8800/login", { login, password })
       localStorage.setItem("token", res.data.token)
-      setSuccess(true)
-      navigate("/profile")
+      navigate("/")
     }
     catch (err) {
-      console.log(alert.err)
-      setError(true)
+      console.log(err)
+      setError("Niepoprawny login lub hasło")
     }
   }
   return (
-    <section>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -34,13 +30,13 @@ function Login() {
           onChange={(e) => setLogin(e.target.value)}
         />
         <input
-          type="text"
+          type="password"
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
+        {<p>{error}</p>}
         <button type="submit">Submit</button>
       </form>
-    </section>
   )
 }
 

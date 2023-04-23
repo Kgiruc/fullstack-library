@@ -27,24 +27,26 @@ const getRegister = (req, res) => {
   });
 };
 
-  const getLogin = (req, res) => {
-    const { login, password } = req.body;
-    const q = 'SELECT * FROM library.users WHERE login = ? AND password = ?';
-    const values = [login, password];
-  
-    db.query(q, values, (err, data) => {
-      if (err) return res.json(err);
-      if (data.length === 0) return res.json('Invalid login or password');
-      const token = jwt.sign({ id: data[0].id, isAdmin: data[0].isAdmin, name: data[0].name },
-         "mySecretKey",
-         )
-      return res.json({ 
-        username: data[0].name,
-        isAdmin: data[0].isAdmin,
-        token
-      });
+const getLogin = (req, res) => {
+  const { login, password } = req.body;
+  const q = 'SELECT * FROM library.users WHERE login = ? AND password = ?';
+  const values = [login, password];
+
+  db.query(q, values, (err, data) => {
+    if (err) return res.json(err);
+    if (data.length === 0) {
+      return res.status(401).json({ message: 'Invalid login or password' });
+    }
+    const token = jwt.sign({ id: data[0].id, isAdmin: data[0].isAdmin, name: data[0].name },
+      "mySecretKey",
+    )
+    return res.json({ 
+      username: data[0].name,
+      isAdmin: data[0].isAdmin,
+      token
     });
-  };
+  });
+};
 
   const getLogout = (req, res) => {
     // Usuń token z lokalnego przechowalnika

@@ -31,10 +31,10 @@ function Books() {
 
   if (books && (isAdmin || isUser)) {
     return (
-      <div>
+      <div className="books-container">
         <Profile />
         <ListBooks books={books} isAdmin={isAdmin} isUser={isUser} />
-        {isAdmin && <button><Link to='/add'>Dodaj książkę</Link></button>}
+        {isAdmin && <button className="none"><Link className="add-book-button" to='/add'>Dodaj książkę</Link></button>}
       </div>
     )
   } else {

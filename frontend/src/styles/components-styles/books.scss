@@ -1,0 +1,91 @@
+.books-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.books-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.book {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .author {
+        font-style: italic;
+        margin-bottom: 10px;
+    }
+
+    .numbers {
+        text-align: justify;
+        margin-bottom: 10px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        .edit-button,
+        .delete-button {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                background-color: #000;
+                color: #fff;
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+              }
+        }
+    }
+}
+
+.add-book-button {
+    
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000;
+    }
+}
+
+.none {
+    border: none;
+    background-color: transparent;
+    margin-top: 20px;
+}
