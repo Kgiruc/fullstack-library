@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Register() {
   const [name, setName] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -18,53 +20,62 @@ function Register() {
         password,
         isAdmin,
       });
-      console.log(response.data);
-      navigate('/login');
+      if (response.data === 'User has been created successfully') {
+        navigate('/login');
+      }
     } catch (error) {
-      console.error(error);
+      console.log(error.response.data);
+      setError(error.response.data.error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Name:</label>
+    <>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           id="name"
+          placeholder='name'
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
-      </div>
-      <div>
-        <label htmlFor="login">Login:</label>
         <input
           type="text"
           id="login"
+          placeholder='login'
           value={login}
           onChange={(event) => setLogin(event.target.value)}
         />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
         <input
           type="password"
           id="password"
+          placeholder='password'
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-      </div>
-      <div>
-        <label htmlFor="isAdmin">Admin:</label>
-        <input
-          type="checkbox"
-          id="isAdmin"
-          checked={isAdmin}
-          onChange={(event) => setIsAdmin(event.target.checked)}
-        />
-      </div>
-      <button type="submit">Register</button>
-    </form>
+        <label
+          htmlFor="checkbox"
+          className='checkbox'
+        >
+          Zarejestruj jako Admin
+          <input
+            type="checkbox"
+            id="isAdmin"
+            checked={isAdmin}
+            onChange={(event) => setIsAdmin(event.target.checked)}
+          />
+        </label>
+        {error && <p className="error">{error}</p>}
+        <button type="submit">Register</button>
+        <Link 
+          to={"/login"}
+          className="register"
+        >
+          Logowanie
+          </Link>
+      </form>
+      
+    </>
   );
 }
 

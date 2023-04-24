@@ -38,7 +38,7 @@ function Books() {
       </div>
     )
   } else {
-    return <div>Loading...</div>
+    return <Link className="register" to={"/login"}>Zaloguj się lub zarejestruj</Link>
   }
 }
 

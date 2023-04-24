@@ -1,42 +1,57 @@
 .profile {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
-    width: 100%;
-    padding: 0 20px;
-    background-color: #f2f2f2;
-    border-bottom: 1px solid #ccc;
-    box-sizing: border-box;
-  
-    p {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 0;
-      color: #333;
-    }
-  
-    .admin {
-      color: red;
-    }
-  
-    .user {
-      color: green;
-    }
-  
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      font-weight: bold;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-  
-      &:hover {
-        background-color: #555;
-      }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 40px;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+
+  p {
+    font-size: $font-head2;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+  }
+
+  .admin,
+  .user {
+    color: $color-gray;
+    font-size: $font-head1;
+    font-family: $font-alt;
+    text-transform: capitalize;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: $font-subhead1;
+    font-weight: bold;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #555;
     }
   }
+}
+
+@media (max-width: $breakpoint-smartphone) {
+  .profile {
+    .admin,
+    .user {
+      font-size: $font-subhead2;
+    }
+
+    button {
+      padding: 7px 5px;
+      font-size: $font-subhead2;
+    }
+  }
+}

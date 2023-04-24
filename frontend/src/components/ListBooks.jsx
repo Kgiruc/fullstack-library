@@ -41,9 +41,9 @@ function ListBooks({ books, isAdmin, isUser }) {
           <p className='author'>{book.author}</p>
           {isUser && (
             <button
-              className=''
               onClick={(e) => handleRent(book.id, e)}
               disabled={!book.isAvailable}
+              className='rent-button'
             >
               Wypożycz
             </button>

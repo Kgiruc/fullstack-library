@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 function ListRentals({ rentals, isAdmin }) {
   const navigate = useNavigate()
+  console.log(rentals)
 
   const handleDelete = async (id) => {
     try {
@@ -13,14 +14,16 @@ function ListRentals({ rentals, isAdmin }) {
     }
   };
 
-  
+
 
   return (
-    <div>
+    <div className='books-list'>
       {rentals.map((rental) => (
-        <section key={rental.id}>
-          <p>{rental.title}</p>
-          <p>{rental.borrow_name}</p>
+        <section key={rental.id} className='book'>
+          <p className='title'>{rental.title}</p>
+          <p className='author'>{rental.borrow_name}</p>
+          <p className='numbers'>{new Date(rental.date_rented).toLocaleDateString()}</p>
+          <p className='numbers'>{new Date(rental.date_returned).toLocaleDateString()}</p>
           {isAdmin ? (
             <button disabled>Zwróć</button>
           ) : (
