@@ -5,6 +5,11 @@ import jwt from "jsonwebtoken"
 const getRegister = (req, res) => {
   const { name, login, password, isAdmin } = req.body;
 
+  // Sprawdź, czy wszystkie pola są uzupełnione
+  if (!name || !login || !password) {
+    return res.status(400).json({ error: 'Wszystkie pola muszą być uzupełnione' });
+  }
+
   // Sprawdź, czy dany login jest już zajęty
   const checkLoginQuery = 'SELECT * FROM library.users WHERE login = ?';
   db.query(checkLoginQuery, [login], (err, data) => {
@@ -12,7 +17,7 @@ const getRegister = (req, res) => {
 
     if (data.length > 0) {
       // Jeśli login jest już zajęty, zwróć odpowiedni komunikat
-      return res.json('Ten użytkownik już istenieje');
+      return res.status(400).json({ error: 'Ten użytkownik już istnieje' });
     } else {
       // W przeciwnym razie dodaj użytkownika
       const addUserQuery = 'INSERT INTO library.users (name, login, password, isAdmin) VALUES (?, ?, ?, ?)';
